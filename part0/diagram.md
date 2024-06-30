@@ -3,7 +3,14 @@ sequenceDiagram
     participant browser
     participant server
 
-    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note note=cosas+diagrama
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note Form data: note=cosas+diagrama
+    activate server
+    server-->>browser: Redirection GET https://studies.cs.helsinki.fi/exampleapp/notes
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+    server-->>browser: HTML document
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
     activate server
     server-->>browser: HTML document
     deactivate server
