@@ -61,4 +61,4 @@ const App = () => {
   </div>
   )
 }
-function
+export default App
