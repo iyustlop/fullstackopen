@@ -5,7 +5,7 @@ const StatisticLine = props => { return (<><td>{props.text}</td><td> {props.valu
 const Statistics = (props) => {
   if (props.good === 0 && props.neutral === 0 && props.bad === 0) {
     return (
-      <p>No feedback given</p>
+      <tr><td>No feedback given</td></tr>
     )
   }
 
@@ -64,10 +64,13 @@ const App = () => {
         <Button handleClick={() => setNeutral(neutral + 1)} text="neutral" />
         <Button handleClick={() => setBad(bad + 1)} text="bad" />
       </div>
-      <div>
-        <h1>statistics</h1>
-        <Statistics good={good} neutral={neutral} bad={bad} />
-      </div>
+      <h1>statistics</h1>
+      <table>
+        <tbody>
+              <Statistics good={good} neutral={neutral} bad={bad} />          
+        </tbody>
+      </table>
+
     </>
   )
 }
