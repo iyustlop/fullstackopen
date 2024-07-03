@@ -13,11 +13,10 @@ const App = () => {
   ]
 
   const [selected, setSelected] = useState(0)
-  const [votes, setVotes] = useState([0,0,0,0,0,0,0,0])
+  const [votes, setVotes] = useState([0, 0, 0, 0, 0, 0, 0, 0])
+  const [fav, setFav] = useState(0)
 
   const random = Math.floor(Math.random() * anecdotes.length)
-
-  console.log(random, selected)
 
   const handleVotes = () => {
     console.log(votes)
@@ -25,10 +24,16 @@ const App = () => {
     copy[selected] += 1
     setVotes(copy)
     console.log(copy)
+    var result = copy.indexOf(Math.max(...copy));
+    console.log(result)
+    setFav(result)
   }
 
   return (
     <>
+      <div>
+        <h1>Anecdote of the day</h1>
+      </div>
       <div>
         {anecdotes[selected]}
       </div>
@@ -37,6 +42,12 @@ const App = () => {
       </div>
       <button onClick={handleVotes}>vote</button>
       <button onClick={() => setSelected(random)}>next anecdote</button>
+      <div>
+        <h1>Anecdote with most votes</h1>
+      </div>
+      <div>
+        {anecdotes[fav]}
+      </div>
     </>
 
   )
