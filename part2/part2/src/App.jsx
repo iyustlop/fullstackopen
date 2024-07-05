@@ -1,4 +1,4 @@
-import Note from "./componets/Note"
+import Note from "./components/Note"
 import { useState } from "react"
 
 const App = (props) => {
