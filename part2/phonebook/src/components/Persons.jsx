@@ -1,4 +1,4 @@
-const Numbers = (props) => {
+const Persons = (props) => {
     console.log('numbers', props);
     const { persons, filter } = props
     return (
@@ -10,4 +10,4 @@ const Numbers = (props) => {
     )
 }
 
-export default Numbers
+export default Persons
