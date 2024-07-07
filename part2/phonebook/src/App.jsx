@@ -3,6 +3,7 @@ import Persons from './components/Persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import axios from 'axios'
+import personsService from './services/persons'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -44,13 +45,12 @@ const App = () => {
     console.log('lista', persons)
     const index = persons.findIndex(i => i.name === noteObject.name);
     console.log('indice', index)
-    if (index === -1) {
-      setPersons(persons.concat(noteObject))
-      setNewName('')
-    }
-    else {
-      alert(`${noteObject.name} is already added to phonebook`);
-    }
+    personsService
+      .create(noteObject)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
+        setNewName('')
+      })
   }
 
   return (
