@@ -46,7 +46,7 @@ const App = () => {
       personsService.remove(name[0].id)
         .then(setPersons(persons.filter(person => person.id !== name[0].id)))
     } else {
-      console.log('Cosas');
+      console.log('User has cancel the operation');
     }
   }
 
@@ -69,7 +69,20 @@ const App = () => {
           setNewName('')
         })
     } else {
-      alert(`${noteObject.name} is already added to phonebook`);
+      confirm(`${noteObject.name} is already added to phonebook, replace the old number with a new one?`)
+      const oldId = persons[index].id
+      noteObject.id=oldId
+      personsService
+        .update(oldId, noteObject)
+        .then(() => {
+          console.log(noteObject)
+          const arr = persons.filter(person => person.id !== oldId)
+          console.log('update', arr);
+          const newArr = arr.concat(noteObject)
+          console.log('concat', newArr);
+          setPersons(newArr)
+          setNewName('')
+        })
     }
 
   }
