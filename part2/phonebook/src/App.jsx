@@ -20,7 +20,7 @@ const App = () => {
         setPersons(response.data)
       })
   }
-  
+
   useEffect(hook, [])
   console.log('render', persons.length, 'persons')
 
@@ -35,9 +35,25 @@ const App = () => {
     setFilter(event.target.value)
   }
 
+  const deletePerson = (id) => {
+    const name = persons.filter((person) => {
+      console.log(person.id, id);
+      return person.id === id
+    })
+
+    if (confirm(`${name[0].name}`)) {
+      console.log('name', name[0].name, id, name[0].id);
+      personsService.remove(name[0].id)
+        .then(setPersons(persons.filter(person => person.id !== name[0].id)))
+    } else {
+      console.log('Cosas');
+    }
+  }
+
   const addName = (event) => {
     event.preventDefault()
     const noteObject = {
+      id: (persons.length + 1).toString,
       name: newName,
       number: newNumber
     }
@@ -45,12 +61,17 @@ const App = () => {
     console.log('lista', persons)
     const index = persons.findIndex(i => i.name === noteObject.name);
     console.log('indice', index)
-    personsService
-      .create(noteObject)
-      .then(returnedPerson => {
-        setPersons(persons.concat(returnedPerson))
-        setNewName('')
-      })
+    if (index === -1) {
+      personsService
+        .create(noteObject)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
+          setNewName('')
+        })
+    } else {
+      alert(`${noteObject.name} is already added to phonebook`);
+    }
+
   }
 
   return (
@@ -58,9 +79,9 @@ const App = () => {
       <h2>Phonebook</h2>
       <Filter handleFilterName={handleFilterName} />
       <h3>Add a new</h3>
-      <PersonForm addName={addName} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange}/>
+      <PersonForm addName={addName} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} />
       <h2>Numbers</h2>
-      <Persons persons={persons} filter={filter} />
+      <Persons persons={persons} filter={filter} deletePerson={deletePerson} />
     </div>
   )
 }
