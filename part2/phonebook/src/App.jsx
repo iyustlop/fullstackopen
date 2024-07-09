@@ -2,14 +2,17 @@ import { useState, useEffect } from 'react'
 import Persons from './components/Persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
+import Notification from './components/Notification'
 import axios from 'axios'
 import personsService from './services/persons'
+import './index.css'
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [message, setMessage] = useState('')
 
   const hook = () => {
     console.log('effect')
@@ -64,18 +67,31 @@ const App = () => {
     if (index === -1) {
       personsService
         .create(noteObject)
-        .then(returnedPerson => {
+        .then(returnedPerson => {      
+          setMessage(
+            `Added ${returnedPerson.name}`
+          )
+          setTimeout(() => {
+            setMessage('')
+          }, 5000)
           setPersons(persons.concat(returnedPerson))
           setNewName('')
         })
-    } else {
+    }
+    else {
       confirm(`${noteObject.name} is already added to phonebook, replace the old number with a new one?`)
       const oldId = persons[index].id
-      noteObject.id=oldId
+      noteObject.id = oldId
       personsService
         .update(oldId, noteObject)
         .then(() => {
           console.log(noteObject)
+          setMessage(
+            `Updated ${noteObject.name}`
+          )
+          setTimeout(() => {
+            setMessage('')
+          }, 5000)
           const arr = persons.filter(person => person.id !== oldId)
           console.log('update', arr);
           const newArr = arr.concat(noteObject)
@@ -90,6 +106,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} />
       <Filter handleFilterName={handleFilterName} />
       <h3>Add a new</h3>
       <PersonForm addName={addName} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} />
