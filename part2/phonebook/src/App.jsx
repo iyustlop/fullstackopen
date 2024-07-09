@@ -107,7 +107,7 @@ const App = () => {
         .catch(error => {
           console.log(error);
           setError(true)
-          setMessage(`Information of ${noteObject.name} has already been removed from server`)
+          setMessage(`Information of ${name[0].name} has already been removed from server`)
           setTimeout(() => {
             setMessage('')
           }, 5000)
