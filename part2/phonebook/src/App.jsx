@@ -13,6 +13,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
   const [message, setMessage] = useState('')
+  const [error, setError] = useState(false)
 
   const hook = () => {
     console.log('effect')
@@ -38,21 +39,6 @@ const App = () => {
     setFilter(event.target.value)
   }
 
-  const deletePerson = (id) => {
-    const name = persons.filter((person) => {
-      console.log(person.id, id);
-      return person.id === id
-    })
-
-    if (confirm(`Delete ${name[0].name} ?`)) {
-      console.log('name', name[0].name, id, name[0].id);
-      personsService.remove(name[0].id)
-        .then(setPersons(persons.filter(person => person.id !== name[0].id)))
-    } else {
-      console.log('User has cancel the operation');
-    }
-  }
-
   const addName = (event) => {
     event.preventDefault()
     const noteObject = {
@@ -67,7 +53,7 @@ const App = () => {
     if (index === -1) {
       personsService
         .create(noteObject)
-        .then(returnedPerson => {      
+        .then(returnedPerson => {
           setMessage(
             `Added ${returnedPerson.name}`
           )
@@ -86,9 +72,7 @@ const App = () => {
         .update(oldId, noteObject)
         .then(() => {
           console.log(noteObject)
-          setMessage(
-            `Updated ${noteObject.name}`
-          )
+          setMessage(`Updated ${noteObject.name}`)
           setTimeout(() => {
             setMessage('')
           }, 5000)
@@ -99,14 +83,45 @@ const App = () => {
           setPersons(newArr)
           setNewName('')
         })
+        .catch(error => {
+          console.log(error);
+          setError(true)
+          setMessage(`Information of ${noteObject.name} has already been removed from server`)
+          setTimeout(() => {
+            setMessage('')
+          }, 5000)
+        })
     }
+  }
 
+  const deletePerson = (id) => {
+    const name = persons.filter((person) => {
+      console.log(person.id, id);
+      return person.id === id
+    })
+
+    if (confirm(`Delete ${name[0].name} ?`)) {
+      console.log('name', name[0].name, id, name[0].id);
+      personsService.remove(name[0].id)
+        .then(setPersons(persons.filter(person => person.id !== name[0].id)))
+        .catch(error => {
+          console.log(error);
+          setError(true)
+          setMessage(`Information of ${noteObject.name} has already been removed from server`)
+          setTimeout(() => {
+            setMessage('')
+          }, 5000)
+        }
+        )
+    } else {
+      console.log('User has cancel the operation');
+    }
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={message} />
+      <Notification message={message} esError={error} />
       <Filter handleFilterName={handleFilterName} />
       <h3>Add a new</h3>
       <PersonForm addName={addName} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} />
