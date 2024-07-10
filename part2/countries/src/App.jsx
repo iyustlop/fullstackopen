@@ -9,7 +9,7 @@ const App = () => {
   useEffect(() => {
     console.log('use Efect boot');
     if (country) {
-      console.log('country:',country);
+      console.log('country:', country);
       countriesService
         .getAll()
         .then((returnedCountries) => {
@@ -21,6 +21,10 @@ const App = () => {
   const handleChange = (event) => {
     setCountry(event.target.value)
   }
+
+  const showCountry = (name) => {
+    setCountries(countries.filter((i) => i.name.common == name));
+  };
 
   return (
     <>
@@ -36,7 +40,7 @@ const App = () => {
             <ul>
               {countries.map((c) => (
                 <li key={c.name.common}>
-                  {c.name.common}{" "}
+                  {c.name.common}{" "}<button onClick={() => showCountry(c.name.common)}>show</button>
                 </li>
               ))}
             </ul>
