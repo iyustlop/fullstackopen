@@ -63,6 +63,14 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
         })
+        .catch(error => {
+          console.log(error.response.data.error)
+          setError(true)
+          setMessage(error.response.data.error)
+          setTimeout(() => {
+            setMessage('')
+          }, 5000)
+        })
     }
     else {
       confirm(`${noteObject.name} is already added to phonebook, replace the old number with a new one?`)
