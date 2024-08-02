@@ -65,8 +65,6 @@ const loginForm = () => {
         name='username'
         onChange={ ({ target }) => setUsername(target.value)}
       />
-    </div>
-    <div>
       password:
       <input
         type='password'
@@ -74,16 +72,16 @@ const loginForm = () => {
         name='password'
         onChange={ ({ target }) => setPassword(target.value)}
       />
+      <button type='submit'>login</button>
     </div>
-    <button type='submit'>login</button>
   </form>
   )
 }
 
   return (
     <div>
-      { user === null ? loginForm() : <div><p>{user.name} logged-in</p><button onClick={handleCloseSession}>cerrar</button></div>}
-      <h2>blogs</h2>
+      { user === null ? loginForm() : <div><p>{user.name} logged-in</p><button onClick={handleCloseSession}>logout</button></div>}
+      { user !== null && <h2>blogs</h2> }
       {user !== null && blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
