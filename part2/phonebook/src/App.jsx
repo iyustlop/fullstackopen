@@ -3,7 +3,6 @@ import Persons from './components/Persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Notification from './components/Notification'
-import LoginForm from './components/login'
 import personsService from './services/persons'
 import login from './services/login'
 import './index.css'
@@ -51,14 +50,7 @@ const App = () => {
   const handleFilterName = (event) => {
     setFilter(event.target.value)
   }
-
-  const   handleUsername = () => {
-    ({ target }) => setUsername(target.value)
-  }
-
-  const handlePassword = () => {
-    ({ target }) => setPassword(target.value)
-  }
+  
 
   const handleLogin = async (event) => {
     event.preventDefault()
