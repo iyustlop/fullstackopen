@@ -63,7 +63,6 @@ const App = () => {
       author: author,
       url: url
     }
-    console.log(blog)
     
     blogService.saveOneBlog(blog)
   }

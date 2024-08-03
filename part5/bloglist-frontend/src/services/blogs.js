@@ -21,7 +21,8 @@ const saveOneBlog = async (blog) => {
     headers: { Authorization: token },
   }
 
-  const response = axios.post(baseUrl, blog, config)
+  const response = await axios.post(baseUrl, blog, config)
+  
   return response.data
 }
 
