@@ -7,9 +7,6 @@ const setToken = newToken => {
   token = `Bearer ${newToken}`
 }
 
-const getToken = () => {
-  return token
-}
 
 const getAll = () => {
   const request = axios.get(baseUrl)
@@ -26,4 +23,4 @@ const saveOneBlog = async (blog) => {
   return response.data
 }
 
-export default { getAll, saveOneBlog, setToken, getToken }
+export default { getAll, saveOneBlog, setToken }

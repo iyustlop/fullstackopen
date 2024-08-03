@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import Notification from './components/Notification'
 import blogService from './services/blogs'
 import login from './services/login'
+import './index.css'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -11,6 +13,8 @@ const App = () => {
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
   const [user, setUser] = useState(null)
+  const [message, setMessage] = useState('')
+  const [error, setError] = useState(false)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -21,8 +25,6 @@ const App = () => {
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogsappUser')
     if (loggedUserJSON) {
-      console.log(loggedUserJSON)
-
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
       blogService.setToken(user.token)
@@ -43,9 +45,11 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setError('Wrong credentials')
+      setMessage('Wrong user and password')
+      setError(true)
       setTimeout(() => {
         setError(null)
+        setMessage('')
       }, 5000)
     }
   }
@@ -64,7 +68,16 @@ const App = () => {
       url: url
     }
     
-    blogService.saveOneBlog(blog)
+    const response = await blogService.saveOneBlog(blog)
+    
+    setBlogs(blogs.concat(response))
+    setMessage(
+      `Anew blog ${blog.title}`
+    )
+    setTimeout(() => {
+      setMessage('')
+    }, 5000)
+
   }
 
   const loginForm = () => {
@@ -105,6 +118,7 @@ const App = () => {
 
   return (
     <div>
+      <Notification message={message} esError={error} />
       {user === null ? loginForm() : <div><p>{user.name} logged-in</p><button onClick={handleCloseSession}>logout</button></div>}
       {user !== null && createBlog()}
       {user !== null && <h2>blogs</h2>}
