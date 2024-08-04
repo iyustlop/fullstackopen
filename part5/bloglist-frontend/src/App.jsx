@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import CreateBlogForm from './components/CreateBlogForm'
+import Toggable from './components/Toggable'
 import blogService from './services/blogs'
 import login from './services/login'
 import './index.css'
@@ -10,14 +11,9 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
   const [user, setUser] = useState(null)
   const [message, setMessage] = useState('')
   const [error, setError] = useState(false)
-  const [createBlogVisible, setCreateBlogVisible] = useState(false)
-
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -64,25 +60,6 @@ const App = () => {
     setPassword('')
   }
 
-  const handleCreateNewBlog = async () => {
-    const blog = {
-      title: title,
-      author: author,
-      url: url
-    }
-    
-    const response = await blogService.saveOneBlog(blog)
-    
-    setBlogs(blogs.concat(response))
-    setMessage(
-      `Anew blog ${blog.title}`
-    )
-    setTimeout(() => {
-      setMessage('')
-    }, 5000)
-
-  }
-
   const loginForm = () => {
     return (
       <form onSubmit={handleLogin}>
@@ -107,35 +84,27 @@ const App = () => {
     )
   }
 
-  const createBlog = () => {
-    const hideWhenVisible = { display: createBlogVisible ? 'none' : '' }
-    const showWhenVisible = { display: createBlogVisible ? '' : 'none' }
-
-    return(
-      <div>
-        <div style={hideWhenVisible}>
-          <button onClick={() => setCreateBlogVisible(true)}>new blog</button>
-        </div>
-        <div style={showWhenVisible}>
-          <CreateBlogForm 
-            title={title}
-            author={author}
-            url={url}
-            handleTitleChange={({ target }) => setTitle(target.value)}
-            handleAuthirChange={({ target }) => setAuthor(target.value)}
-            handleUrlChange={({ target }) => setUrl(target.value)}
-          />
-          <button onClick={() => setCreateBlogVisible(false)}>cancel</button>
-        </div>
-      </div>
+  const createBlog = async (blog) => {
+    console.log('blog')
+    
+    const response = await blogService.saveOneBlog(blog)
+        
+    setBlogs(blogs.concat(response))
+    setMessage(
+      `Anew blog ${blog.title}`
     )
+    setTimeout(() => {
+      setMessage('')
+    }, 5000)
   }
 
   return (
     <div>
       <Notification message={message} esError={error} />
       {user === null ? loginForm() : <div><p>{user.name} logged-in</p><button onClick={handleCloseSession}>logout</button></div>}
-      {user !== null && createBlog()}
+      {user !== null && <Toggable buttonLabel='New Blog'>
+        <CreateBlogForm createBlog={createBlog} />
+      </Toggable>}
       {user !== null && <h2>blogs</h2>}
       {user !== null && blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
