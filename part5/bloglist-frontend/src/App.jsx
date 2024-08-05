@@ -16,9 +16,10 @@ const App = () => {
   const [error, setError] = useState(false)
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
+    blogService.getAll().then(blogs =>{
+      blogs.sort((a,b) => b.likes - a.likes)
       setBlogs(blogs)
-    )
+    })
   }, [])
 
   useEffect(() => {
@@ -101,6 +102,7 @@ const App = () => {
   const handleLike = async (newblog) => {
     const response = await blogService.updateABlog(newblog)  
     const updatedBlogs = blogs.map(blog => blog.id !== newblog.id ? blog : {...blog, likes: response.likes})
+    updatedBlogs.sort((a,b) => b.likes - a.likes)
     setBlogs(updatedBlogs)
   }
 
