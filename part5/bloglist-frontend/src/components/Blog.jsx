@@ -1,8 +1,7 @@
 import { useState } from "react"
-import blogs from "../services/blogs"
-import Toggable from "./Toggable"
+import blogsService from "../services/blogs"
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, handleLike }) => {
   const [view, setView] = useState(false)
 
   const blogStyle = {
@@ -11,6 +10,12 @@ const Blog = ({ blog }) => {
     border: 'solid',
     borderWidth: 1,
     marginBottom: 5
+  }
+
+  const handleLikeClick = async   () => {
+    const newBlog = {...blog, likes: blog.likes+1}
+
+    handleLike(newBlog)
   }
 
  return (
@@ -23,7 +28,7 @@ const Blog = ({ blog }) => {
         {view &&(<div>
           <div>{blog.author}</div>
           <div>{blog.url}</div>
-          <div>{blog.likes}<button>like</button></div>
+          <div>{blog.likes}<button onClick={handleLikeClick}>like</button></div>
           <div>{blog.user.name}</div>
           </div>)}
     </div>
