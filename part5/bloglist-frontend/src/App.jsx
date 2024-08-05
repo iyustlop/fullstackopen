@@ -99,8 +99,8 @@ const App = () => {
   }
 
   const handleLike = async (newblog) => {
-    const response = await blogService.updateABlog(newblog)
-    const updatedBlogs = blogs.map(blog => blog.id !== newblog.id ? blog : response)
+    const response = await blogService.updateABlog(newblog)  
+    const updatedBlogs = blogs.map(blog => blog.id !== newblog.id ? blog : {...blog, likes: response.likes})
     setBlogs(updatedBlogs)
   }
 
