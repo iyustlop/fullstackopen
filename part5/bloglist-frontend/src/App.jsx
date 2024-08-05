@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import CreateBlogForm from './components/CreateBlogForm'
@@ -101,10 +101,12 @@ const App = () => {
   return (
     <div>
       <Notification message={message} esError={error} />
-      {user === null ? loginForm() : <div><p>{user.name} logged-in</p><button onClick={handleCloseSession}>logout</button></div>}
-      {user !== null && <Toggable buttonLabel='New Blog'>
-        <CreateBlogForm createBlog={createBlog} />
-      </Toggable>}
+      {user === null ? loginForm() : <div><p>{user.name} logged-in <button onClick={handleCloseSession}>logout</button></p></div>}
+      {user !== null && 
+        <Toggable buttonLabelOpen='Create new blog' buttonLabelClose='Cancel'>
+          <CreateBlogForm createBlog={createBlog} />
+        </Toggable>
+      }
       {user !== null && <h2>blogs</h2>}
       {user !== null && blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
