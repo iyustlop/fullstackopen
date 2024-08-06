@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 const LoginForm = (props) => {
   return (
     <div>
@@ -25,5 +27,11 @@ const LoginForm = (props) => {
   )
 }
 
+LoginForm.propTypes = {
+  username: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired,
+  handleLogin: PropTypes.func.isRequired,
+  handleChange: PropTypes.func.isRequired
+}
 
 export default LoginForm
