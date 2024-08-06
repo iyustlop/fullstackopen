@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from 'react'
 
 const Blog = ({ blog, handleLike, handleRemoveBlog  }) => {
   const [view, setView] = useState(false)
@@ -12,22 +12,21 @@ const Blog = ({ blog, handleLike, handleRemoveBlog  }) => {
   }
 
   const handleLikeClick = async () => {
-    const newBlog = {...blog, likes: blog.likes+1}
+    const newBlog = { ...blog, likes: blog.likes+1 }
 
     handleLike(newBlog)
   }
 
   const handleRemoveBlogClick = async () => {
-    
     handleRemoveBlog(blog)
   }
 
- return (
-  <div>
-    <div style={blogStyle}>{blog.title}
-      {view ? 
-        <button onClick={() => {setView(false)}}>hide</button> :
-        <button onClick={() => {setView(true)}}>view</button>
+  return (
+    <div>
+      <div style={blogStyle}>{blog.title}
+        {view ?
+          <button onClick={() => {setView(false)}}>hide</button> :
+          <button onClick={() => {setView(true)}}>view</button>
         }
         {view &&(<div>
           <div>{blog.author}</div>
@@ -35,9 +34,9 @@ const Blog = ({ blog, handleLike, handleRemoveBlog  }) => {
           <div>{blog.likes}<button onClick={handleLikeClick}>like</button></div>
           <div>{blog.user.name}</div>
           <button onClick={handleRemoveBlogClick}>remove</button>
-          </div>)}
+        </div>)}
+      </div>
     </div>
-  </div>  
-)
+  )
 }
 export default Blog

@@ -1,13 +1,13 @@
 const Notification = ({ message, esError }) => {
-    if (message === '') {
-      return null
-    }
-  
-    return (
-      <div className={esError ? 'error' : 'notification'} >
-        {message}
-      </div>
-    )
+  if (message === '') {
+    return null
   }
-  
-  export default Notification
+
+  return (
+    <div className={esError ? 'error' : 'notification'} >
+      {message}
+    </div>
+  )
+}
+
+export default Notification

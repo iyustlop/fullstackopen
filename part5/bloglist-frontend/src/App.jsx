@@ -1,8 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
-import Blog from './components/Blog'
-import Notification from './components/Notification'
-import CreateBlogForm from './components/CreateBlogForm'
-import Toggable from './components/Toggable'
+import { useState, useEffect } from 'react'
 import blogService from './services/blogs'
 import login from './services/login'
 import './index.css'
@@ -16,7 +12,7 @@ const App = () => {
   const [error, setError] = useState(false)
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>{
+    blogService.getAll().then(blogs => {
       blogs.sort((a,b) => b.likes - a.likes)
       setBlogs(blogs)
     })
@@ -54,7 +50,7 @@ const App = () => {
     }
   }
 
-  const handleCloseSession = async (event) => {
+  const handleCloseSession = async () => {
     window.localStorage.removeItem('loggedBlogsappUser')
     setUser(null)
     setUsername('')
@@ -87,9 +83,9 @@ const App = () => {
 
   const createBlog = async (blog) => {
     console.log('blog')
-    
+
     const response = await blogService.saveOneBlog(blog)
-        
+
     setBlogs(blogs.concat(response))
     setMessage(
       `Anew blog ${blog.title}`
@@ -100,8 +96,8 @@ const App = () => {
   }
 
   const handleLike = async (newblog) => {
-    const response = await blogService.updateABlog(newblog)  
-    const updatedBlogs = blogs.map(blog => blog.id !== newblog.id ? blog : {...blog, likes: response.likes})
+    const response = await blogService.updateABlog(newblog)
+    const updatedBlogs = blogs.map(blog => blog.id !== newblog.id ? blog : { ...blog, likes: response.likes })
     updatedBlogs.sort((a,b) => b.likes - a.likes)
     setBlogs(updatedBlogs)
   }
@@ -119,7 +115,7 @@ const App = () => {
     <div>
       <Notification message={message} esError={error} />
       {user === null ? loginForm() : <div><p>{user.name} logged-in <button onClick={handleCloseSession}>logout</button></p></div>}
-      {user !== null && 
+      {user !== null &&
         <Toggable buttonLabelOpen='Create new blog' buttonLabelClose='Cancel'>
           <CreateBlogForm createBlog={createBlog} />
         </Toggable>
