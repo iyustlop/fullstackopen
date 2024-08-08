@@ -22,14 +22,14 @@ const Blog = ({ blog, handleLike, handleRemoveBlog  }) => {
   }
 
   return (
-    <div>
+    <div className='blog'>
       <div style={blogStyle}>{blog.title}
         {view ?
           <button onClick={() => {setView(false)}}>hide</button> :
           <button onClick={() => {setView(true)}}>view</button>
         }
+        <div>{blog.author}</div>
         {view &&(<div>
-          <div>{blog.author}</div>
           <div>{blog.url}</div>
           <div>{blog.likes}<button onClick={handleLikeClick}>like</button></div>
           <div>{blog.user.name}</div>

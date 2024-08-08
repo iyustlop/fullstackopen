@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import Notification from './components/Notification'
-import Toggable from './components/Toggable'
+import Togglable from './components/Togglable'
 import CreateBlogForm from './components/CreateBlogForm'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
@@ -120,9 +120,9 @@ const App = () => {
       <Notification message={message} esError={error} />
       {user === null ? loginForm() : <div><p>{user.name} logged-in <button onClick={handleCloseSession}>logout</button></p></div>}
       {user !== null &&
-        <Toggable buttonLabelOpen='Create new blog' buttonLabelClose='Cancel'>
+        <Togglable buttonLabelOpen='Create new blog' buttonLabelClose='Cancel'>
           <CreateBlogForm createBlog={createBlog} />
-        </Toggable>
+        </Togglable>
       }
       {user !== null && <h2>blogs</h2>}
       {user !== null && blogs.map(blog =>
