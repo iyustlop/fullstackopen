@@ -15,7 +15,8 @@ test('renders content', () => {
 
   const div = container.querySelector('.blog')
 
-  expect(div).toHaveTextContent('Component testing is done with react-testing-library')
+  expect(div).toHaveTextContent(blog.title)
+  expect(div).toHaveTextContent(blog.author)
 })
 
 test('clicking the buttonLike calls event handler once', async () => {
@@ -25,13 +26,13 @@ test('clicking the buttonLike calls event handler once', async () => {
 
   const div = container.querySelector('.blog')
 
-  expect(div).toHaveTextContent('Ignacio Yuste')
+  expect(div).toHaveTextContent(blog.author)
 
   const user = userEvent.setup()
   const buttonLike = screen.getByText('view')
   await user.click(buttonLike)
 
-  expect(div).toHaveTextContent('Ignacio Yuste')
+  expect(div).toHaveTextContent(blog.author)
 })
 
 test('clicking the buttonLike like ', async () => {
@@ -41,7 +42,7 @@ test('clicking the buttonLike like ', async () => {
 
   const div = container.querySelector('.blog')
 
-  expect(div).toHaveTextContent('Ignacio Yuste')
+  expect(div).toHaveTextContent(blog.author)
 
   const user = userEvent.setup()
   const buttonView = screen.getByText('view')
