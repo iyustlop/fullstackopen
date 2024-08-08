@@ -26,13 +26,17 @@ test('clicking the buttonLike calls event handler once', async () => {
 
   const div = container.querySelector('.blog')
 
+  expect(div).toHaveTextContent(blog.title)
   expect(div).toHaveTextContent(blog.author)
+  expect(div).not.toHaveTextContent(blog.url)
+  expect(div).not.toHaveTextContent(blog.likes)
 
   const user = userEvent.setup()
   const buttonLike = screen.getByText('view')
   await user.click(buttonLike)
 
-  expect(div).toHaveTextContent(blog.author)
+  expect(div).toHaveTextContent(blog.url)
+  expect(div).toHaveTextContent(blog.likes)
 })
 
 test('clicking the buttonLike like ', async () => {
