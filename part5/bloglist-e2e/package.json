@@ -1,0 +1,17 @@
+{
+  "name": "bloglist-e2e",
+  "version": "1.0.0",
+  "description": "E2E test of blog list",
+  "main": "index.js",
+  "scripts": {},
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "test": "playwright test",
+    "test:report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.46.0",
+    "@types/node": "^22.1.0"
+  }
+}

@@ -9,6 +9,7 @@ const LoginForm = (props) => {
                     username:
           <input
             type='text'
+            data-testid='username'
             value={props.username}
             name='username'
             onChange={props.handleChange}
@@ -16,6 +17,7 @@ const LoginForm = (props) => {
                     password:
           <input
             type='password'
+            data-testid='password'
             value={props.password}
             name='password'
             onChange={props.handleChange}
