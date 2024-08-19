@@ -1,26 +1,34 @@
 import PropTypes from 'prop-types'
 
-const LoginForm = (props) => {
+const LoginForm = ({
+  handleSubmit,
+  handleUsernameChange,
+  handlePasswordChange,
+  username,
+  password
+}) => {
   return (
     <div>
       <h2>Login</h2>
-      <form onSubmit={props.handleLogin}>
+      <form onSubmit={handleSubmit}>
         <div>
-                    username:
+          username:
           <input
+            className={'username'}
+            data-testid="username"
             type='text'
-            data-testid='username'
-            value={props.username}
+            value={username}
             name='username'
-            onChange={props.handleChange}
+            onChange={handleUsernameChange}
           />
-                    password:
+          password:
           <input
-            type='password'
+            className='password'
             data-testid='password'
-            value={props.password}
+            type='password'
+            value={password}
             name='password'
-            onChange={props.handleChange}
+            onChange={handlePasswordChange}
           />
           <button type='submit'>login</button>
         </div>
@@ -32,8 +40,9 @@ const LoginForm = (props) => {
 LoginForm.propTypes = {
   username: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
-  handleLogin: PropTypes.func.isRequired,
-  handleChange: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired,
+  handleUsernameChange: PropTypes.func.isRequired,
+  handlePasswordChange: PropTypes.func.isRequired
 }
 
 export default LoginForm
