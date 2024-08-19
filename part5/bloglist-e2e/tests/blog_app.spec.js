@@ -38,20 +38,21 @@ describe('Blog list App', () => {
       await page.locator('.password').fill('wrong')
       await page.getByRole('button', { name: 'login' }).click()
 
-      await expect(page.getByText('wrong user and password')).toBeVisible()
+      const errorDiv = await page.locator('.error')
+      await expect(errorDiv).toContainText('Wrong user and password')
     })
   })
 
   describe('when logged in', () => {
     beforeEach(async ({ page }) => {
-      const textboxes = await page.getByRole('textbox').all()
-      await textboxes[0].fill('mluukkai')
-      await textboxes[1].fill('salainen')
+      await page.getByRole('button', { name: 'log in' }).click()
+      await page.getByTestId('username').fill('mluukkai')
+      await page.getByTestId('password').fill('salainen')
       await page.getByRole('button', { name: 'login' }).click()
       await expect(page.getByText('mluukkai logged-in')).toBeVisible()
     })
 
-    test('a new note can be created', async ({ page }) => {
+    test('a new blog can be created', async ({ page }) => {
       await page.getByRole('button', { name: 'Create new blog' }).click()
       await page.getByRole('textbox').fill('a note created by playwright')
       await page.getByRole('button', { name: 'save' }).click()
