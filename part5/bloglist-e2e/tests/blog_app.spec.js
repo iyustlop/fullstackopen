@@ -2,7 +2,16 @@ const { test, describe, expect, beforeEach } = require('@playwright/test')
 
 describe('Blog list App', () => {
 
-  beforeEach(async ({ page }) => {
+  beforeEach(async ({ page, request }) => {
+    await request.post('http:localhost:3003/api/testing/reset')
+    await request.post('http://localhost:3003/api/users', {
+      data: {
+        name: 'Matti Luukkainen',
+        username: 'mluukkai',
+        password: 'salainen'
+      }
+    })
+
     await page.goto('http://localhost:5173')
   })
 
