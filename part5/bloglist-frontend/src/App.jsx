@@ -81,15 +81,13 @@ const App = () => {
             handlePasswordChange={({ target }) => setPassword(target.value)}
             handleSubmit={handleLogin}
           />
+          <button onClick={() => setLoginVisible(false)}>cancel</button>
         </div>
-        <button onClick={() => setLoginVisible(false)}>cancel</button>
       </div>
     )
   }
 
   const createBlog = async (blog) => {
-    console.log('blog')
-
     const response = await blogService.saveOneBlog(blog)
 
     setBlogs(blogs.concat(response))
@@ -120,11 +118,13 @@ const App = () => {
   return (
     <div>
       <Notification message={message} esError={error} />
-      {user === null ? loginForm() : <div><p>{user.name} logged-in <button onClick={handleCloseSession}>logout</button></p></div>}
-      {user !== null &&
-        <Togglable buttonLabelOpen='Create new blog' buttonLabelClose='Cancel'>
-          <CreateBlogForm createBlog={createBlog} />
-        </Togglable>
+      {!user && loginForm()}
+
+      {user && <><div>
+        <p>{user.name} logged-in <button onClick={handleCloseSession}>logout</button></p>
+      </div><Togglable buttonLabelOpen='Create new blog' buttonLabelClose='Cancel'>
+        <CreateBlogForm createBlog={createBlog} />
+      </Togglable></>
       }
       {user !== null && <h2>blogs</h2>}
       {user !== null && blogs.map(blog =>
