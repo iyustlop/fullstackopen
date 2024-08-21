@@ -22,38 +22,18 @@ const App = () => {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
       blogsService
-    .setToken(user.token)
+        .setToken(user.token)
     }
   }, [])
 
   useEffect(() => {
     blogsService
-  
+
       .getAll()
       .then(initialNotes => {
         setBlogs(initialNotes)
       })
   }, [])
-
-  const toggleImportanceOf = id => {
-    const note = notes.find(n => n.id === id)
-    const changedNote = { ...note, important: !note.important }
-  
-    blogsService
-  
-      .update(id, changedNote)
-        .then(returnedNote => {
-        setNotes(notes.map(note => note.id !== id ? note : returnedNote))
-      })
-      .catch(error => {
-        setErrorMessage(
-          `Note '${note.content}' was already removed from server`
-        )
-        setTimeout(() => {
-          setErrorMessage(null)
-        }, 5000)
-      })
-  }
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -64,23 +44,24 @@ const App = () => {
       })
       window.localStorage.setItem(
         'loggedNoteappUser', JSON.stringify(user)
-      ) 
+      )
       blogsService
-    .setToken(user.token)
+        .setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setErrorMessage('Wrong user and password')
+      setError(true)
+      setMessage('Wrong user and password')
       setTimeout(() => {
-        setErrorMessage(null)
+        setMessage(null)
       }, 5000)
     }
   }
 
   const createBlog = async (blog) => {
     const response = await blogsService
-  .create(blog)
+      .create(blog)
 
     setBlogs(blogs.concat(response))
     setMessage(
@@ -116,7 +97,7 @@ const App = () => {
   }
 
   const handleLike = async (newblog) => {
-    const response = await blogService.updateABlog(newblog)
+    const response = await blogsService.updateABlog(newblog)
     const updatedBlogs = blogs.map(blog => blog.id !== newblog.id ? blog : { ...blog, likes: response.likes })
     updatedBlogs.sort((a,b) => b.likes - a.likes)
     setBlogs(updatedBlogs)
@@ -125,7 +106,7 @@ const App = () => {
   const handleRemoveBlog = async (blogtoRemove) => {
     console.log(blogtoRemove)
     if (window.confirm(`Remove blog ${blogtoRemove.title} by ${blogtoRemove.author}`)) {
-      await blogService.removeBlog(blogtoRemove.id)
+      await blogsService.removeBlog(blogtoRemove.id)
       const blogsLeft = blogs.filter(blog => blog.id !== blogtoRemove.id)
       setBlogs(blogsLeft)
     }
@@ -137,14 +118,14 @@ const App = () => {
 
       {!user && loginForm()}
       {user && <div>
-       <p>{user.name} logged in</p>
-       <Togglable buttonLabelOpen='Create new blog' buttonLabelClose='Cancel'>
-       <CreateBlogForm 
-         createBlog={createBlog} 
-      />
-      </Togglable>
+        <p>{user.name} logged in</p>
+        <Togglable buttonLabelOpen='Create new blog' buttonLabelClose='Cancel'>
+          <CreateBlogForm
+            createBlog={createBlog}
+          />
+        </Togglable>
       </div>
-     } 
+      }
       {user !== null && <h2>blogs</h2>}
       {user !== null && blogs.map(blog =>
         <Blog key={blog.id} blog={blog} handleLike={handleLike} handleRemoveBlog={handleRemoveBlog}/>
