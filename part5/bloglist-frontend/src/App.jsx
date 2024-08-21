@@ -97,7 +97,7 @@ const App = () => {
   }
 
   const handleLike = async (newblog) => {
-    const response = await blogsService.updateABlog(newblog)
+    const response = await blogsService.update(newblog.id,newblog)
     const updatedBlogs = blogs.map(blog => blog.id !== newblog.id ? blog : { ...blog, likes: response.likes })
     updatedBlogs.sort((a,b) => b.likes - a.likes)
     setBlogs(updatedBlogs)
