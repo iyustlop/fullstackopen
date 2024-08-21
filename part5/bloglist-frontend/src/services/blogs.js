@@ -26,10 +26,13 @@ const removeBlog = async (blog) => {
     headers: { Authorization: token },
   }
 
-  const response = await axios
-    .delete(`${baseUrl}/${blog}`, config)
-
-  return response.data
+  try {
+    const response = await axios
+      .delete(`${baseUrl}/${blog}`, config)
+    return response.data
+  } catch(exception){
+    return 'no authorized'
+  }
 }
 
 const update = (id, newObject) => {

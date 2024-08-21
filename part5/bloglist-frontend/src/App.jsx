@@ -106,10 +106,22 @@ const App = () => {
   const handleRemoveBlog = async (blogtoRemove) => {
     console.log(blogtoRemove)
     if (window.confirm(`Remove blog ${blogtoRemove.title} by ${blogtoRemove.author}`)) {
-      await blogsService.removeBlog(blogtoRemove.id)
-      const blogsLeft = blogs.filter(blog => blog.id !== blogtoRemove.id)
-      setBlogs(blogsLeft)
+      const response = await blogsService.removeBlog(blogtoRemove.id)
+      if (response==='no authorized'){
+        window.alert('No Authorized to remove the blog')
+      } else {
+        const blogsLeft = blogs.filter(blog => blog.id !== blogtoRemove.id)
+        setBlogs(blogsLeft)
+      }
     }
+  }
+
+
+  const handleCloseSession = async () => {
+    window.localStorage.removeItem('loggedBlogsappUser')
+    setUser(null)
+    setUsername('')
+    setPassword('')
   }
 
   return (
@@ -118,7 +130,7 @@ const App = () => {
 
       {!user && loginForm()}
       {user && <div>
-        <p>{user.name} logged in</p>
+        <p>{user.name} logged in <button onClick={handleCloseSession}>logout</button></p>
         <Togglable buttonLabelOpen='Create new blog' buttonLabelClose='Cancel'>
           <CreateBlogForm
             createBlog={createBlog}
