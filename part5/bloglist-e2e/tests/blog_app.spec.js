@@ -16,6 +16,14 @@ describe('Blog list App', () => {
       }
     })
 
+    await request.post('http://localhost:3003/api/users', {
+      data: {
+        name: 'Juha Kankkunen',
+        username: 'jkankkunen',
+        password: 'salainen'
+      }
+    })
+
     await page.goto('http://localhost:5173')
   })
 
@@ -89,6 +97,27 @@ describe('Blog list App', () => {
         await page.getByText('remove').click()
         await new Promise(r => setTimeout(r, 5000));
         await expect(page.getByText('a blog created by playwright')).not.toBeVisible()
+      })
+
+      test('another user try to remove', async ({page}) => {
+        await page.getByRole('button', { name: 'logout' }).click()
+
+        await page.getByTestId('username').fill('jkankkunen')
+        await page.getByTestId('password').fill(PASSWORD)
+        await page.getByRole('button', { name: 'login' }).click()
+        await expect(page.getByText('Juha Kankkunen logged in')).toBeVisible()
+        await page.getByText('view').click()
+        page.on('dialog', async (dialog) => {
+          console.log(dialog.message())
+          await dialog.accept()
+        });
+        await page.getByText('remove').click()
+        await new Promise(r => setTimeout(r, 5000));
+        page.on('dialog', async (dialog) => {
+          console.log(dialog.message())
+          await dialog.accept()
+        });
+        await expect(page.getByText('a blog created by playwright')).toBeVisible()
       })
     })
   })  
