@@ -69,5 +69,17 @@ describe('Blog list App', () => {
       await page.getByRole('button', { name: 'create' }).click()
       await expect(page.getByText('A new blog a blog created by playwright')).toBeVisible()
     })
+
+    test('a Blog can be liked', async ({page}) => {
+      await page.getByRole('button', { name: 'Create new blog' }).click()
+      await page.getByTestId('title').fill('a blog created by playwright')
+      await page.getByTestId('author').fill('a blog author created by playwright')
+      await page.getByTestId('url').fill('a blog url created by playwright')
+      await page.getByRole('button', { name: 'create' }).click()
+      await expect(page.getByText('A new blog a blog created by playwright')).toBeVisible()
+      await page.getByText('view').click()
+      await page.getByText('like').click()
+      await expect(page.getByText('likes:1')).toBeVisible()
+    })
   })  
 })
