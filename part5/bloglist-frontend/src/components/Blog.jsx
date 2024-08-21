@@ -31,7 +31,7 @@ const Blog = ({ blog, handleLike, handleRemoveBlog  }) => {
         <div>{blog.author}</div>
         {view &&(<div>
           <div>{blog.url}</div>
-          <div>{blog.likes}<button onClick={handleLikeClick}>like</button></div>
+          <div>likes:{blog.likes}<button onClick={handleLikeClick}>like</button></div>
           <div>{blog.user.name}</div>
           <button onClick={handleRemoveBlogClick}>remove</button>
         </div>)}
