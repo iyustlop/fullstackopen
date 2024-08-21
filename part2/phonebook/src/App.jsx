@@ -3,8 +3,8 @@ import Persons from './components/Persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Notification from './components/Notification'
-import axios from 'axios'
 import personsService from './services/persons'
+import login from './services/login'
 import './index.css'
 
 const App = () => {
@@ -14,19 +14,31 @@ const App = () => {
   const [filter, setFilter] = useState('')
   const [message, setMessage] = useState('')
   const [error, setError] = useState(false)
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [user, setUser] = useState(null)
 
   const hook = () => {
     console.log('effect')
     personsService
       .getAll()
       .then(response => {
-        console.log('promise fulfilled',response)
+        console.log('promise fulfilled', response)
         setPersons(response)
       })
   }
 
   useEffect(hook, [])
   console.log('render', persons.length, 'persons')
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedPhoneBookappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      personsService.setToken(user.token)
+    }
+  }, [])
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -37,6 +49,28 @@ const App = () => {
 
   const handleFilterName = (event) => {
     setFilter(event.target.value)
+  }
+  
+
+  const handleLogin = async (event) => {
+    event.preventDefault()
+    try {
+      const user = await login.login({
+        username, password
+      })
+      window.localStorage.setItem(
+        'loggedPhoneBookappUser', JSON.stringify(user)
+      ) 
+      
+      setUser(user)
+      setUsername('')
+      setPassword('')
+    } catch (exception) {
+      setError('Wrong credentials')
+      setTimeout(() => {
+        setError(null)
+      }, 5000)
+    }
   }
 
   const addName = (event) => {
@@ -126,10 +160,37 @@ const App = () => {
     }
   }
 
+  const LoginForm = () => {
+    return (
+        <form onSubmit={handleLogin}>
+            <div>
+              username:
+              <input
+                type='text'
+                value={ username }
+                name='username'
+                onChange={ ({ target }) => setUsername(target.value)}
+              />
+            </div>
+            <div>
+              password:
+              <input
+                type='password'
+                value={password}
+                name='password'
+                onChange={ ({ target }) => setPassword(target.value)}
+              />
+            </div>
+            <button type='submit'>login</button>
+          </form>
+    )
+    }
+
   return (
     <div>
       <h2>Phonebook</h2>
       <Notification message={message} esError={error} />
+      { user === null ? LoginForm() : <div><p>{user.name} logged-in</p></div>}
       <Filter handleFilterName={handleFilterName} />
       <h3>Add a new</h3>
       <PersonForm addName={addName} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} />

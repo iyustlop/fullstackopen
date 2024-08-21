@@ -1,4 +1,4 @@
-const PersonForm = ({addName, handleNameChange, handleNumberChange}) => {
+const PersonForm = ({ addName, handleNameChange, handleNumberChange   }) => {
     console.log('Peson Form', addName, handleNameChange, handleNumberChange);
     return (
         <form onSubmit={addName}>
