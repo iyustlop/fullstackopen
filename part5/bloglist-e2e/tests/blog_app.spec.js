@@ -60,44 +60,36 @@ describe('Blog list App', () => {
       await expect(page.getByText(USER_LOGED_IN)).toBeVisible()
     })
 
-    test('a new blog can be created', async ({ page }) => {
-      await page.getByRole('button', { name: 'Create new blog' }).click()
-      await page.getByTestId('title').fill('a blog created by playwright')
-      await page.getByTestId('author').fill('a blog author created by playwright')
-      await page.getByTestId('url').fill('a blog url created by playwright')
-      await page.getByRole('button', { name: 'create' }).click()
-      await expect(page.getByText('A new blog a blog created by playwright')).toBeVisible()
-    })
+    describe('acctions with blogs',() => {
+      beforeEach(async ({ page}) =>{
+        await page.getByRole('button', { name: 'Create new blog' }).click()
+        await page.getByTestId('title').fill('a blog created by playwright')
+        await page.getByTestId('author').fill('a blog author created by playwright')
+        await page.getByTestId('url').fill('a blog url created by playwright')
+        await page.getByRole('button', { name: 'create' }).click()
+      })
 
-    test('a Blog can be liked', async ({page}) => {
-      await page.getByRole('button', { name: 'Create new blog' }).click()
-      await page.getByTestId('title').fill('a blog liked by playwright')
-      await page.getByTestId('author').fill('a blog author liked by playwright')
-      await page.getByTestId('url').fill('a blog url liked by playwright')
-      await page.getByRole('button', { name: 'create' }).click()
-      await expect(page.getByText('A new blog a blog liked by playwright')).toBeVisible()
-      await page.getByRole('button', { name: 'view' }).click()
-      await page.getByRole('button', { name: 'like' }).click()
-      await expect(page.getByText('likes:1')).toBeVisible()
-    })
+      test('a new blog can be created', async ({ page }) => {
+        await expect(page.getByText('A new blog a blog created by playwright')).toBeVisible()
+      })
 
-    test('a blog can be removed by the user', async ({page})=>{
-      await page.getByRole('button', { name: 'Create new blog' }).click()
-      await page.getByTestId('title').fill('a blog delete by playwright')
-      await page.getByTestId('author').fill('a blog author delete by playwright')
-      await page.getByTestId('url').fill('a blog url delete by playwright')
-      await page.getByRole('button', { name: 'create' }).click()
-      await page.getByRole('button', { name: 'Cancel' }).click()  
-      await expect(page.getByText('A new blog a blog delete by playwright')).toBeVisible()
-      await page.getByText('view').click()
-      page.on('dialog', async (dialog) => {
-        console.log(dialog.message())
-        await dialog.accept()
-      });
-      await page.getByText('remove').click()
-      await new Promise(r => setTimeout(r, 5000));
-      await expect(page.getByText('a blog delete by playwright')).not.toBeVisible()
-    })
+      test('a Blog can be liked', async ({page}) => {
+        await page.getByRole('button', { name: 'view' }).click()
+        await page.getByRole('button', { name: 'like' }).click()
+        await expect(page.getByText('likes:1')).toBeVisible()
+      })
 
+      test('a blog can be removed by the user', async ({page})=>{
+        await page.getByRole('button', { name: 'Cancel' }).click()  
+        await page.getByText('view').click()
+        page.on('dialog', async (dialog) => {
+          console.log(dialog.message())
+          await dialog.accept()
+        });
+        await page.getByText('remove').click()
+        await new Promise(r => setTimeout(r, 5000));
+        await expect(page.getByText('a blog created by playwright')).not.toBeVisible()
+      })
+    })
   })  
 })
