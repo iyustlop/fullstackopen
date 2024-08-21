@@ -119,6 +119,33 @@ describe('Blog list App', () => {
         });
         await expect(page.getByText('a blog created by playwright')).toBeVisible()
       })
+
+      test('blogs sorted by like', async ({page}) => {
+        await page.getByRole('button', { name: 'view' }).click()
+        await page.getByRole('button', { name: 'like' }).click()
+        await page.getByRole('button', { name: 'Cancel' }).click() 
+        
+        await page.getByRole('button', { name: 'Create new blog' }).click()
+        await page.getByTestId('title').clear()
+        await page.getByTestId('author').clear()
+        await page.getByTestId('url').clear()
+        await page.getByTestId('title').fill('another blog created by playwright')
+        await page.getByTestId('author').fill('another blog author created by playwright')
+        await page.getByTestId('url').fill('another blog url created by playwright')
+        await page.getByRole('button', { name: 'create' }).click()
+
+        await new Promise(r => setTimeout(r, 5000));
+
+        await page.getByRole('button', { name: 'view' }).click()
+        const likes = await page.getByRole('button', { name: 'like' }).all()
+        await likes[1].click()
+        await likes[1].click()
+
+        await new Promise(r => setTimeout(r, 5000));
+
+        const blogs = await page.locator('.blog').all()
+        blogs[0].getByText('another blog created by playwright')
+      })
     })
   })  
 })
