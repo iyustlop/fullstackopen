@@ -6,7 +6,7 @@ const Filter = () => {
     const handleChange = (event) => {
       // input-field value is in variable event.target.value
       event.preventDefault()
-      const filter = event.target.value      
+      const filter = event.target.value    
       dispatch({ type: 'filter/filterReducer', payload: filter})
     }
     const style = {
