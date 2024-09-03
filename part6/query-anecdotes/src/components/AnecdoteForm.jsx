@@ -12,6 +12,10 @@ const AnecdoteForm = () => {
     onSuccess: (newAnecdote) => {
       console.log('llamada')
       queryClient.invalidateQueries({ queryKey: ['anecdotes']})
+    },
+    onError: (error) => {
+      const errorMessage = error.response.data.error
+      setNotification(notificationDispatch, errorMessage)
     }
   })
 
