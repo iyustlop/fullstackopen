@@ -1,23 +1,23 @@
-import { useDispatch } from "react-redux";
+import { useDispatch } from 'react-redux'
 
 const Filter = () => {
-    const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
-    const handleChange = (event) => {
-      // input-field value is in variable event.target.value
-      event.preventDefault()
-      const filter = event.target.value    
-      dispatch({ type: 'filter/filterReducer', payload: filter})
-    }
-    const style = {
-      marginBottom: 10
-    }
-  
-    return (
-      <div style={style}>
-        filter <input onChange={handleChange} />
-      </div>
-    )
+  const handleChange = (event) => {
+    // input-field value is in variable event.target.value
+    event.preventDefault()
+    const filter = event.target.value
+    dispatch({ type: 'filter/filterReducer', payload: filter })
   }
-  
-  export default Filter
+  const style = {
+    marginBottom: 10
+  }
+
+  return (
+    <div style={style}>
+        filter <input onChange={handleChange} />
+    </div>
+  )
+}
+
+export default Filter

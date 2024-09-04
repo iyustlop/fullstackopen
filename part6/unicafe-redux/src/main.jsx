@@ -33,8 +33,8 @@ const App = () => {
 
   return (
     <div>
-      <button onClick={good}>good</button> 
-      <button onClick={ok}>ok</button> 
+      <button onClick={good}>good</button>
+      <button onClick={ok}>ok</button>
       <button onClick={bad}>bad</button>
       <button onClick={zero}>reset stats</button>
       <div>good {store.getState().good}</div>
