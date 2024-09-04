@@ -1,17 +1,28 @@
 import globals from "globals";
 import pluginJs from "@eslint/js";
+import js from '@eslint/js'
+import vitest from 'eslint-plugin-vitest'
 
 export default [
+  js.configs.recommended,
   {
     files: ["**/*.js","**/*.jsx"],
     ignores: ["**/*.config.js"],
     languageOptions: {
       sourceType: "module",
+      globals: {
+        describe: 'readonly',
+        test: 'readonly',
+        expect: 'readonly'
+      },
       parserOptions: {
         ecmaFeatures: {
             jsx: true
         }
       }
+    },
+    plugins: {
+      vitest
     },
     rules:{
       "eqeqeq": "error",
@@ -28,13 +39,13 @@ export default [
         "no-console": 0,
         "react/react-in-jsx-scope": "off",
         "react/prop-types": 0,
-        "no-unused-vars": 0  
+        "no-unused-vars": 0,
     }
   },
   {
     languageOptions: { 
-      globals: globals.browser 
+      globals: globals.browser,
     }
   },
   pluginJs.configs.recommended,
-];
+]
