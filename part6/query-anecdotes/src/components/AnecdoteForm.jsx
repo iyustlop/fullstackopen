@@ -11,7 +11,7 @@ const AnecdoteForm = () => {
     mutationFn: createAnecdote,
     onSuccess: (newAnecdote) => {
       console.log('llamada')
-      queryClient.invalidateQueries({ queryKey: ['anecdotes']})
+      queryClient.invalidateQueries({ queryKey: ['anecdotes'] })
     },
     onError: (error) => {
       const errorMessage = error.response.data.error
@@ -25,7 +25,7 @@ const AnecdoteForm = () => {
     event.target.anecdote.value = ''
     newAnecdoteMutation.mutate({ content, votes: 0 })
     setNotification(notificationDispatch, `You added '${content}'`)
-}
+  }
 
   return (
     <div>
