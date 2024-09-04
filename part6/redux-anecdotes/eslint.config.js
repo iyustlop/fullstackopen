@@ -2,6 +2,7 @@ import globals from "globals";
 import pluginJs from "@eslint/js";
 import js from '@eslint/js'
 import vitest from 'eslint-plugin-vitest'
+import react from 'eslint-plugin-react'
 
 export default [
   js.configs.recommended,
@@ -22,7 +23,8 @@ export default [
       }
     },
     plugins: {
-      vitest
+      vitest,
+      react
     },
     rules:{
       "eqeqeq": "error",
@@ -37,6 +39,8 @@ export default [
           }
         ],
         "no-console": 0,
+        "react/jsx-uses-react": "error",
+        "react/jsx-uses-vars": "error",
         "react/react-in-jsx-scope": "off",
         "react/prop-types": 0,
         "no-unused-vars": 0,
