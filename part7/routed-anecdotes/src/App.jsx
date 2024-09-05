@@ -53,6 +53,7 @@ const App = () => {
     : null
 
   const handleNotification = (notification) => {
+    
     setNotification(notification)
     setTimeout(() => {
       setNotification('')}, 5000
