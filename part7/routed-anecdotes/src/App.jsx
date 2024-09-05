@@ -6,6 +6,7 @@ import AnecdoteList from './components/AnecdoteList'
 import About from './components/About'
 import CreateNew from './components/CreateNew'
 import Footer from './components/Footer'
+import Notification from './components/Notification'
 
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
@@ -50,14 +51,23 @@ const App = () => {
   const anecdote = match
     ? anecdotes.find(a => a.id === Number(match.params.id))
     : null
-  
+
+  const handleNotification = (notification) => {
+    setNotification(notification)
+    setTimeout(() => {
+      setNotification('')}, 5000
+    )
+
+  }
+    
   return (
       <div>
         <h1>Software anecdotes</h1>
         <Menu />
+        <Notification message={notification} />
         <Routes>
             <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
-            <Route path="/create" element={<CreateNew />} />
+            <Route path="/create" element={<CreateNew addNew={addNew} handleNotification={handleNotification}/>} />
             <Route path="/about" element={<About />} />
             <Route path="/anecdotes/:id" element={<Anecdote anecdote={anecdote} />} />
         </Routes>
