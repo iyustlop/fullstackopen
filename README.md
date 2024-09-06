@@ -3,12 +3,16 @@ How to create a new project with vite.
 
 ```bash
 npm create vite@latest blogsApp -- --template react
-````
+```
 
 ## Icons
 
 How to set icons.
 Vscode install Material Icon theme
+
+## Part 0
+
+This section contains some diagram created with Markdown tags that show how to a request is carried out by the browser to the server.
 
 ## Part 1
 
