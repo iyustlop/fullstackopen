@@ -30,8 +30,11 @@ Vscode install Material Icon theme
 
 This section contains some diagram created with Markdown tags that show how to a request is carried out by the browser to the server.
 
-[Link to Part 1 Documentation](https://fullstackopen.com/es/part1)
-## [Part1 anecdotes](part1/anecdotes/README.md)
+## [Link to Part 1 Documentation](https://fullstackopen.com/es/part1)
+Projects:
+1. [Part1 anecdotes](part1/anecdotes/README.md)
+2. [Part1 course info](part1/courseinfo/README.md)
+3. [Part1 unicafe](part1/unicafe/README.md)
 
 ## [Part 2](https://fullstackopen.com/es/part2)
 
